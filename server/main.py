@@ -21,6 +21,13 @@ def getBeer(inputData: InputBody):
     candidateBeers = getCandidateBeers(data)
     return {"message": candidateBeers, "status": status.HTTP_200_OK}
 
+@app.exception_handler(ValidationError)
+def handle_course_exception(request: Request, exc: ValidationError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=jsonable_encoder({"message": exc.message, "status": exc.status_code}),
+    )
+
 def getCandidateBeers(data):
     # ToDo: implement logic with experta to get the candidate beers
     return ["Cream Ale", "Sarasa"]
