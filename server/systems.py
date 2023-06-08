@@ -1,4 +1,5 @@
-from experta import Fact, KnowledgeEngine, L, Rule
+from experta import *
+from facts import *
 
 # Possible beers
 CREAM_ALE = "Cream Ale"
@@ -8,8 +9,6 @@ WHITE_IPA = "Ipa Blanca"
 CZECH_AMBER_LAGER = "Lager Ambar Checa"
 NATALIA_NATALIA = "No es posible realizar una birra con estos atributos"
 
-class BeerAttributes(Fact):
-    pass
 
 class BeerRules(KnowledgeEngine):
     def __init__(self):
@@ -72,16 +71,3 @@ class BeerRules(KnowledgeEngine):
         self.candidateBeers.append(CZECH_AMBER_LAGER)
 
 
-def getCandidateBeers(data):
-    engine = BeerRules()
-    engine.reset()
-    engine.declare(BeerAttributes(
-        intensity=data["intensity"],
-        color=data["color"],
-        bitterness=data["bitterness"],
-        hop=data["hop"],
-        fermentation=data["fermentation"],
-        yeast=data["yeast"],
-    ))
-    engine.run()
-    return engine.candidateBeers

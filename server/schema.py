@@ -1,6 +1,7 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field, validator
-from fastapi import status
+from typing import Optional
+from pydantic import BaseModel, validator
+from http import HTTPStatus
+# from fastapi import status
 
 INTENSITY_TYPES = ["baja", "media", "alta"]
 COLOR_TYPES = ["palido", "ambar", "oscuro"]
@@ -11,7 +12,7 @@ YEAST_TYPES = ["lager", "ale"]
 
 class ValidationError(Exception):
     def __init__(self, message):
-        self.status_code = status.HTTP_400_BAD_REQUEST
+        self.status_code = HTTPStatus.BAD_REQUEST
         self.message = message
 
 class InputBody(BaseModel):
@@ -70,10 +71,6 @@ class InputBody(BaseModel):
 
         return yeast
 
+
 def getErrorMessage(attribute, expectedValues, actualValue):
     return f"invalid {attribute} type. Must be {expectedValues}, got '{actualValue}'"
-
-
-
-
-
