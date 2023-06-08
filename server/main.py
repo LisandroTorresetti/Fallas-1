@@ -20,9 +20,3 @@ def handle_course_exception(request: Request, exc: ValidationError):
         status_code=exc.status_code,
         content=jsonable_encoder({"message": exc.message, "status": exc.status_code}),
     )
-
-
-# Run the server using uvicorn
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(main, host="0.0.0.0", port=8000)
