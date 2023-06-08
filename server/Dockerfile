@@ -1,8 +1,7 @@
 FROM python:3.8
 WORKDIR /app
 
-COPY /server/ ./
-COPY requirements.txt ./
+COPY . .
 
 RUN pip install -r requirements.txt
 

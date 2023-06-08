@@ -3,7 +3,6 @@ services:
   server:
     container_name: server
     build:
-      context: .
-      dockerfile: server/Dockerfile
+      context: ./server
     ports:
       - "8080:8080"

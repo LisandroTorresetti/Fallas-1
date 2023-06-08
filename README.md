@@ -1,15 +1,8 @@
 # Fallas-1
 
-## Requirements:
+## Commands
 
-Instalar
+Run: `make mandale-mecha`
 
-+ **FastAPI:** `pip install fastapi`
+Delete app: `make delete-app`
 
-+ **Uvicorn:** `pip install "uvicorn[standard]"`
-
-+ **Experta:** `pip install experta`
-
-## Server
-
-Run: `uvicorn main:app --reload`
