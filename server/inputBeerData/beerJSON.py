@@ -1,5 +1,5 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field, validator
+from typing import Optional
+from pydantic import BaseModel, validator
 from fastapi import status
 
 INTENSITY_TYPES = ["baja", "media", "alta"]
