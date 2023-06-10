@@ -7,6 +7,7 @@ from fastapi import status
 
 app = FastAPI()
 
+
 # Returns the birras that match the conditions from the input body
 @app.get("/birra")
 def getBeer(inputData: InputBody):
@@ -16,7 +17,7 @@ def getBeer(inputData: InputBody):
 
 
 @app.exception_handler(ValidationError)
-def handleValidationError(exc: ValidationError):
+def handleValidationError(_: Request, exc: ValidationError):
     return JSONResponse(
         status_code=exc.status_code,
         content=jsonable_encoder({"message": exc.message, "status": exc.status_code}),

@@ -8,8 +8,10 @@ WHITE_IPA = "Ipa Blanca"
 CZECH_AMBER_LAGER = "Lager Ambar Checa"
 NATALIA_NATALIA = "No es posible realizar una birra con estos atributos"
 
+
 class BeerAttributes(Fact):
     pass
+
 
 class BeerRules(KnowledgeEngine):
     def __init__(self):
@@ -75,13 +77,15 @@ class BeerRules(KnowledgeEngine):
 def getCandidateBeers(data):
     engine = BeerRules()
     engine.reset()
-    engine.declare(BeerAttributes(
-        intensity=data["intensity"],
-        color=data["color"],
-        bitterness=data["bitterness"],
-        hop=data["hop"],
-        fermentation=data["fermentation"],
-        yeast=data["yeast"],
-    ))
+    engine.declare(
+        BeerAttributes(
+            intensity=data["intensity"],
+            color=data["color"],
+            bitterness=data["bitterness"],
+            hop=data["hop"],
+            fermentation=data["fermentation"],
+            yeast=data["yeast"],
+        )
+    )
     engine.run()
     return engine.candidateBeers

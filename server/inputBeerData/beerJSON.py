@@ -9,10 +9,12 @@ HOP_TYPES = ["viejo mundo", "nuevo mundo"]
 FERMENTATION_TYPES = ["baja", "media", "alta"]
 YEAST_TYPES = ["lager", "ale"]
 
+
 class ValidationError(Exception):
     def __init__(self, message):
         self.status_code = status.HTTP_400_BAD_REQUEST
         self.message = message
+
 
 class InputBody(BaseModel):
     intensity: Optional[str] = "*"
@@ -26,7 +28,9 @@ class InputBody(BaseModel):
     def validateIntensity(cls, intensity):
         intensity = intensity.lower()
         if intensity not in INTENSITY_TYPES:
-            raise ValidationError(getErrorMessage("intensity", INTENSITY_TYPES, intensity))
+            raise ValidationError(
+                getErrorMessage("intensity", INTENSITY_TYPES, intensity)
+            )
 
         return intensity
 
@@ -42,7 +46,9 @@ class InputBody(BaseModel):
     def validateBitterness(cls, bitterness):
         bitterness = bitterness.lower()
         if bitterness not in BITTERNESS_TYPES:
-            raise ValidationError(getErrorMessage("bitterness", BITTERNESS_TYPES, bitterness))
+            raise ValidationError(
+                getErrorMessage("bitterness", BITTERNESS_TYPES, bitterness)
+            )
 
         return bitterness
 
@@ -58,7 +64,9 @@ class InputBody(BaseModel):
     def validateFermentation(cls, fermentation):
         fermentation = fermentation.lower()
         if fermentation not in FERMENTATION_TYPES:
-            raise ValidationError(getErrorMessage("fermentation", FERMENTATION_TYPES, fermentation))
+            raise ValidationError(
+                getErrorMessage("fermentation", FERMENTATION_TYPES, fermentation)
+            )
 
         return fermentation
 
@@ -70,10 +78,6 @@ class InputBody(BaseModel):
 
         return yeast
 
+
 def getErrorMessage(attribute, expectedValues, actualValue):
     return f"invalid {attribute} type. Must be {expectedValues}, got '{actualValue}'"
-
-
-
-
-
