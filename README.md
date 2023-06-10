@@ -2,7 +2,8 @@
 
 ## Commands
 
-Run: `make mandale-mecha`
+Run: `make run`
 
-Delete app: `make delete-app`
+Delete app: `make stop`
 
+See logs: `make logs`

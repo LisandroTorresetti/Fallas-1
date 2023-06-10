@@ -1,8 +1,13 @@
-mandale-mecha:
+run:
 	docker-compose -f docker-compose.yaml up -d --build
-.PHONY: mandale-mecha
+.PHONY: run
 
-delete-app:
+stop:
 	docker-compose -f docker-compose.yaml stop -t 1
 	docker-compose -f docker-compose.yaml down
-.PHONY: delete-app
+.PHONY: stop
+
+logs:
+	docker-compose logs -f
+.PHONY: logs
+
