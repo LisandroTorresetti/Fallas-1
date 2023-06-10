@@ -16,7 +16,7 @@ export default function Select({
         label={label}
         labelId={idLabel}
         {
-          ...register(idLabel, { required: true })
+          ...register(idLabel)
         }
       >
         {values.map(value => <MenuItem value={value.value}>{value.name}</MenuItem>)}
