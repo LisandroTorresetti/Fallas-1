@@ -9,7 +9,7 @@ app = FastAPI()
 
 
 # Returns the birras that match the conditions from the input body
-@app.get("/birra")
+@app.post("/cerveza")
 def getBeer(inputData: InputBody):
     data = inputData.dict()
     candidateBeers = getCandidateBeers(data)
