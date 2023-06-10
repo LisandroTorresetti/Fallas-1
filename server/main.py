@@ -4,9 +4,17 @@ from inputBeerData.beerJSON import InputBody, ValidationError
 from expertSystem.expertSystem import getCandidateBeers
 from fastapi.responses import JSONResponse
 from fastapi import status
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Returns the birras that match the conditions from the input body
 @app.post("/cerveza")
