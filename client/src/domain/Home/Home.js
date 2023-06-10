@@ -4,15 +4,18 @@ import { useForm } from "react-hook-form";
 import { createBeer } from '../../common/services/formService';
 import { Select } from '../../common/components';
 import { ALL_TYPES } from '../../common/utils/constants';
+import BeerType from "./beerType";
 
 export default function Home() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [beers, setBeers] = useState([])
+  const [used, setUsed] = useState(false);
 
   const onSubmit = async (data) => {
     try {
       const posBeers = await createBeer(data)
       setBeers(posBeers.message)
+      setUsed(true);
     } catch (error) {
       console.log(error)
       console.log(errors)
@@ -27,7 +30,20 @@ export default function Home() {
           <Button type='submit' variant='contained'>Enviar</Button>
         </div>
         {
-          beers.map(b => <Typography>{b}</Typography>)
+          beers.length === 1 && beers.map(b => BeerType(b))
+        }
+        {
+          beers.length === 0 && used &&
+            <div>
+              <Typography color={'red'}>We could not find a beer for the provided specifications</Typography>
+            </div>
+        }
+        {
+          beers.length > 1 &&
+            <div>
+              <Typography>Current possibilities are:</Typography>
+              {beers.map(b => <Typography>{b}</Typography>)}
+            </div>
         }
       </Stack>
     </form>
