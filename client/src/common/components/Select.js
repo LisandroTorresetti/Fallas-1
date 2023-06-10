@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, Select as MUISelect, MenuItem } from "@mui/material";
+import { FormControl, InputLabel, Select as MUISelect, MenuItem, Typography } from "@mui/material";
 
 export default function Select({
   register,
@@ -16,12 +16,12 @@ export default function Select({
         label={label}
         labelId={idLabel}
         {
-          ...register(idLabel)
+          ...register(idLabel, { required: true })
         }
       >
         {values.map(value => <MenuItem value={value.value}>{value.name}</MenuItem>)}
       </MUISelect>
-      {errors[idLabel] && <span>Debes completar este campo</span>}
+      {errors[idLabel] && <Typography marginTop={1} color="red">Debes completar este campo</Typography>}
     </FormControl>
   )
 }

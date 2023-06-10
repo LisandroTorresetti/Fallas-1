@@ -1,9 +1,8 @@
 import axiosInstance from "./axios";
 
-export async function createRequest(body) {
+export async function createBeer(body) {
   const response = await axiosInstance.post(
-    // TODO: ver endpoint
-    "request",
+    "/birra",
     body,
   )
 
