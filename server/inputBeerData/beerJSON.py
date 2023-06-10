@@ -2,12 +2,12 @@ from typing import Optional
 from pydantic import BaseModel, validator
 from fastapi import status
 
-INTENSITY_TYPES = ["baja", "media", "alta"]
-COLOR_TYPES = ["palido", "ambar", "oscuro"]
-BITTERNESS_TYPES = ["bajo", "medio", "alto"]
-HOP_TYPES = ["viejo mundo", "nuevo mundo"]
-FERMENTATION_TYPES = ["baja", "media", "alta"]
-YEAST_TYPES = ["lager", "ale"]
+INTENSITY_TYPES = ["baja", "media", "alta", "*"]
+COLOR_TYPES = ["palido", "ambar", "oscuro", "*"]
+BITTERNESS_TYPES = ["bajo", "medio", "alto", "*"]
+HOP_TYPES = ["viejo mundo", "nuevo mundo", "*"]
+FERMENTATION_TYPES = ["baja", "media", "alta", "*"]
+YEAST_TYPES = ["lager", "ale", "*"]
 
 
 class ValidationError(Exception):
