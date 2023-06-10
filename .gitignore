@@ -1,2 +1,6 @@
 /.idea
 .DS_store
+poetry.lock
+pyproject.toml
+.python-version
+.flake8
