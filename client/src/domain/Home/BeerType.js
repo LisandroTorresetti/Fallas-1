@@ -1,4 +1,5 @@
-import {Typography} from "@mui/material";
+import React from "react";
+import { Stack, Typography } from "@mui/material";
 
 const subtext = new Map([
     ['Cream Ale', 'Una limpia, bien atenuada y sabrosa lager americana “para cortar el césped”. Fácil de tomar y refrescante, pero con más cuerpo que las típicas lagers americanas.'],
@@ -8,17 +9,14 @@ const subtext = new Map([
     ['Lager Ambar Checa', 'Una lager ámbar checa orientada a la malta, con un carácter a lúpulo que puede variar de bajo a muy significativo. Los sabores a malta pueden variar un poco, dando lugar a diferentes interpretaciones que van desde pan y suave bizcocho, a dulce y algo de caramelo.']
 ]);
 
-export default function BeerType(name) {
+export default function BeerType({ name }) {
     const sbt = subtext.get(name)
     const fileName = `${name}.png`
+
     return (
-        <div>
-            <div style={{ 'text-align': 'center' }}>
-                <img src = {fileName} alt={name}/>
-            </div>
-            <div>
-                <Typography>{sbt}</Typography>
-            </div>
-        </div>
+        <Stack spacing={5}>
+            <img src = {fileName} alt={name}/>
+            <Typography textAlign="justify">{sbt}</Typography>
+        </Stack>
     )
 }

@@ -4,6 +4,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Home } from "../domain";
+import Header from "./Header";
+import { Stack } from "@mui/material";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +16,8 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div style={{ maxWidth: "80%", margin: "auto", marginTop: "40px" }}>
+    <div>
+      <Header />
       <RouterProvider router={router} />
     </div>
   );

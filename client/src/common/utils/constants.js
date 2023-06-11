@@ -1,5 +1,6 @@
 export const INTENSITY_TYPES = {
-  label: "Intensity",
+  description: "TODO",
+  label: "Intensidad",
   idLabel: "intensity",
   values: [
     { value: "baja", name: "Baja" },
@@ -9,7 +10,8 @@ export const INTENSITY_TYPES = {
 }
 
 export const COLOR_TYPES = {
-  label: "Color",
+  description: "TODO",
+  label: "Oscuridad",
   idLabel: "color",
   values: [
     { value: "palido", name: "Pálido" },
@@ -19,7 +21,8 @@ export const COLOR_TYPES = {
 }
 
 export const BITTERNESS_TYPES = {
-  label: "Bitterness",
+  description: "TODO",
+  label: "Amargor",
   idLabel: "bitterness",
   values: [
     { value: "bajo", name: "Bajo" },
@@ -29,7 +32,8 @@ export const BITTERNESS_TYPES = {
 }
 
 export const HOP_TYPES = {
-  label: "Hop",
+  description: "TODO"
+,  label: "Lúpulo",
   idLabel: "hop",
   values: [
     { value: "viejo mundo", name: "Viejo mundo" },
@@ -38,7 +42,8 @@ export const HOP_TYPES = {
 }
 
 export const FERMENTATION_TYPES = {
-  label: "Fermentation",
+  description: "TODO",
+  label: "Fermentación",
   idLabel: "fermentation",
   values: [
     { value: "baja", name: "Baja" },
@@ -48,7 +53,8 @@ export const FERMENTATION_TYPES = {
 }
 
 export const YEAST_TYPES = {
-  label: "Yeast",
+  description: "TODO",
+  label: "Levadura",
   idLabel: "yeast",
   values: [
     { value: "lager", name: "Lager" },
@@ -56,11 +62,11 @@ export const YEAST_TYPES = {
   ]
 }
 
-export const ALL_TYPES = [
-  INTENSITY_TYPES,
-  COLOR_TYPES,
-  BITTERNESS_TYPES,
-  HOP_TYPES,
-  FERMENTATION_TYPES,
-  YEAST_TYPES,
-]
+export const ALL_TYPES = {
+  intensity: INTENSITY_TYPES,
+  color: COLOR_TYPES,
+  bitterness: BITTERNESS_TYPES,
+  hop: HOP_TYPES,
+  fermentation: FERMENTATION_TYPES,
+  yeast: YEAST_TYPES,
+}

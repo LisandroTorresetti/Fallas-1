@@ -1,51 +1,186 @@
-import React, { useState } from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { Button, Grid, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
 import { useForm } from "react-hook-form";
 import { createBeer } from '../../common/services/formService';
-import { Select } from '../../common/components';
+import { Loading, Select } from '../../common/components';
 import { ALL_TYPES } from '../../common/utils/constants';
-import BeerType from "./beerType";
+import BeerType from "./BeerType";
 
 export default function Home() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [beers, setBeers] = useState([])
+  const { register, handleSubmit, formState: { errors }, reset, resetField } = useForm();
+  const [candidateBeers, setCandidateBeers] = useState([])
   const [used, setUsed] = useState(false);
+  const [step, setStep] = useState("intensity")
+  const [lastStep, setLastStep] = useState(false)
+  const [stepsGiven, setStepsGiven] = useState([])
+  const [candBeersGiven, setCandBeersGiven] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const intensityStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.intensity} />, [])
+  const colorStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.color} />, [])
+  const bitternessStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.bitterness} />, [])
+  const hopStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.hop} />, [])
+  const fermentationStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.fermentation} />, [])
+  const yeastStep = useMemo(() => <Select register={register} errors={errors} {...ALL_TYPES.yeast} />, [])
+
+  const steps = {
+    intensity: intensityStep,
+    color: colorStep,
+    bitterness: bitternessStep,
+    hop: hopStep,
+    fermentation: fermentationStep,
+    yeast: yeastStep,
+  }
+
+  const setBackStep = async () => {
+    setLoading(true)
+    console.log(stepsGiven)
+    console.log(step)
+    if (stepsGiven.length) {
+      if (stepsGiven.length === 1) setUsed(false)
+
+      resetField(step)
+      setStep(stepsGiven.at(-1))
+      setCandidateBeers(candBeersGiven.at(-1))
+      setStepsGiven(sg => sg.slice(0, -1))
+      setCandBeersGiven(cbg => cbg.slice(0, -1))
+      setLastStep(false)
+    }
+
+    setLoading(false)
+  }
 
   const onSubmit = async (data) => {
+    if (lastStep) return
+    setLoading(true)
+  
     try {
       const posBeers = await createBeer(data)
-      setBeers(posBeers.message)
+      setCandidateBeers(posBeers.candidateBeers)
+      setStepsGiven(sg => sg.concat(step))
+      setCandBeersGiven(cbg => cbg.concat([candidateBeers]))
+      setStep(posBeers.nextQuestion)
       setUsed(true);
+
+      if (posBeers.candidateBeers.length <= 1) setLastStep(true)
     } catch (error) {
       console.log(error)
       console.log(errors)
     }
+    setLoading(false)
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={5} justifyContent="center" alignItems="center">
-        {ALL_TYPES.map(type => <Select register={register} errors={errors} {...type} />)}
+  const resetAll = () => {
+    reset()
+    setCandidateBeers([])
+    setUsed(false)
+    setStep("intensity")
+    setLastStep(false)
+    setStepsGiven([])
+    setCandBeersGiven([])
+  }
+
+  const beerForm = (
+    <Stack width="80%" height="100%" justifyContent="center" margin="auto">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {
+          loading ? <Loading /> :
+          <Stack spacing={10} justifyContent="center" alignItems="center">
+            {steps[step]}
+            <Stack flexDirection="row" justifyContent="space-around" width="100%">
+              {
+                stepsGiven.length ?
+                <div>
+                  <Button onClick={setBackStep} variant='contained'>
+                    Volver
+                  </Button>
+                </div>
+                : null
+              }
+              <div>
+                <Button type='submit' variant='contained'>
+                  {
+                    lastStep
+                    ? "Enviar"
+                    : "Continuar"
+                  }
+                </Button>
+              </div>
+            </Stack>
+          </Stack>
+        }
+      </form>
+    </Stack>
+  )
+
+  const resultForm = (
+    <Stack width="80%" height="100%" justifyContent="center" margin="auto">
+      {
+        loading ? <Loading /> :
+        <Stack spacing={10} justifyContent="center" alignItems="center">
+          <Typography variant='h3'>
+            Resultado encontrado
+          </Typography>
+          <Stack flexDirection="row" justifyContent="space-around" width="100%">
+            <div>
+              <Button onClick={setBackStep} variant='contained'>
+                Volver
+              </Button>
+            </div>
+            <div>
+              <Button onClick={resetAll} variant='contained'>
+                Reiniciar
+              </Button>
+            </div>
+          </Stack>
+        </Stack>
+      }
+    </Stack>
+  )
+
+  const candidateBeersToShow = (
+    <Stack width="80%" height="100%" justifyContent="center" margin="auto">
+    {
+      candidateBeers.length === 1 && <BeerType name={candidateBeers[0]} />
+    }
+    {
+      !used &&
         <div>
-          <Button type='submit' variant='contained'>Enviar</Button>
+          <Typography>Para comenzar, responda la primera pregunta</Typography>
         </div>
-        {
-          beers.length === 1 && beers.map(b => BeerType(b))
-        }
-        {
-          beers.length === 0 && used &&
-            <div>
-              <Typography color={'red'}>We could not find a beer for the provided specifications</Typography>
-            </div>
-        }
-        {
-          beers.length > 1 &&
-            <div>
-              <Typography>Current possibilities are:</Typography>
-              {beers.map(b => <Typography>{b}</Typography>)}
-            </div>
-        }
-      </Stack>
-    </form>
+    }
+    {
+      candidateBeers.length === 0 && used &&
+        <div>
+          <Typography color={'red'}>No pudimos encontrar una cerveza que cumpla con las especificaciones provistas</Typography>
+        </div>
+    }
+    {
+      candidateBeers.length > 1 &&
+        <div>
+          <Typography>Estamos analizando las especificaciones provistas. Las posibles cervezas hasta el momento son:</Typography> 
+          <List>
+            {candidateBeers.map(b => 
+              <ListItem dense key={`LI${b}`}>
+                <ListItemText
+                  primary={`- ${b}`}
+                />
+              </ListItem>
+            )}
+          </List>
+        </div>
+    }
+    </Stack>
+  )
+
+  return (
+    <Grid container spacing={2} height="100%">
+      <Grid item xs={8}>
+        {lastStep ? resultForm : beerForm}
+      </Grid>
+      <Grid item xs={4}>
+        {candidateBeersToShow}
+      </Grid>
+    </Grid>
   )
 }
