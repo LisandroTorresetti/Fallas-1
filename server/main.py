@@ -16,12 +16,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Returns the birras that match the conditions from the input body
 @app.post("/cerveza")
 def getBeer(inputData: InputBody):
     data = inputData.dict()
     candidateBeers = getCandidateBeers(data)
     return {"message": candidateBeers, "status": status.HTTP_200_OK}
+
 
 @app.exception_handler(ValidationError)
 def handleValidationError(_: Request, exc: ValidationError):

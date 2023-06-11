@@ -8,10 +8,20 @@ WHITE_IPA = "Ipa Blanca"
 CZECH_AMBER_LAGER = "Lager Ambar Checa"
 NATALIA_NATALIA = "No es posible realizar una birra con estos atributos"
 
-QUESTION_LIST = ['intensity','color','bitterness','hop','fermentation','yeast']
+QUESTION_LIST = [
+    "intensity",
+    "color",
+    "bitterness",
+    "hop",
+    "fermentation",
+    "yeast",
+    "null",
+]
+
 
 class BeerAttributes(Fact):
     pass
+
 
 class BeerRules(KnowledgeEngine):
     def __init__(self):
@@ -89,6 +99,9 @@ def getCandidateBeers(data):
     )
     engine.run()
     print(data)
-    next_quesiton_index = len(list(filter(lambda x: x != '*', data.values())))
+    next_quesiton_index = len(list(filter(lambda x: x != "*", data.values())))
     print(next_quesiton_index)
-    return {"candidateBeers": engine.candidateBeers, "nextQuestion": QUESTION_LIST[next_quesiton_index]}
+    return {
+        "candidateBeers": engine.candidateBeers,
+        "nextQuestion": QUESTION_LIST[next_quesiton_index],
+    }
