@@ -23,7 +23,6 @@ def getBeer(inputData: InputBody):
     candidateBeers = getCandidateBeers(data)
     return {"message": candidateBeers, "status": status.HTTP_200_OK}
 
-
 @app.exception_handler(ValidationError)
 def handleValidationError(_: Request, exc: ValidationError):
     return JSONResponse(
