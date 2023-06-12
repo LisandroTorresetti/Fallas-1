@@ -31,8 +31,8 @@ const TRAD = {
   bajo: "Bajo",
   medio: "Medio",
   alto: "Alto",
-  viejo: "Viejo mundo",
-  nuevo: "Nuevo mundo",
+  "viejo mundo": "Viejo mundo",
+  "nuevo mundo": "Nuevo mundo",
   lager: "Lager",
   ale: "Ale",
 }
@@ -186,6 +186,9 @@ export default function Home() {
       </form>
     </Stack>
   );
+
+  console.log(getValues())
+
   const resultForm = (
     <Stack width="80%" height="100%" justifyContent="center" margin="auto">
       {loading ? (
@@ -195,7 +198,7 @@ export default function Home() {
           <Stack spacing={10} justifyContent="center" alignItems="center">
             <Typography variant="h3">Resultado encontrado</Typography>
             <Stack spacing={1}>
-            <Typography variant="h6">Tus elecciones fueron:</Typography>
+            <Typography variant="h6">Porque elegiste...</Typography>
             {
               Object.entries(getValues()).map(v => 
                 v[1] && <Typography>- {TRAD[v[0]]}: {TRAD[v[1]]}</Typography>
@@ -249,10 +252,19 @@ export default function Home() {
           <List>
             {candidateBeers.map((b) => (
               <ListItem dense key={`LI${b}`}>
-                <ListItemText primary={`- ${b}`} />
+                <Typography>{`- ${b}`}</Typography>
               </ListItem>
             ))}
           </List>
+          <Typography>Porque elegiste...</Typography>
+            <List>
+              {Object.entries(getValues()).map(v =>
+                v[0] !== step && v[1] &&
+                <ListItem dense key={`LI${v[0]}`}>
+                  <Typography>- {TRAD[v[0]]}: {TRAD[v[1]]}</Typography>
+                </ListItem>
+              )}
+            </List>
         </div>
       )}
     </Stack>
