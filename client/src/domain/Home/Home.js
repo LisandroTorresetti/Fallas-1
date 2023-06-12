@@ -15,6 +15,28 @@ import { Loading, Select } from "../../common/components";
 import { ALL_TYPES } from "../../common/utils/constants";
 import BeerType from "./BeerType";
 
+const TRAD = {
+  intensity: "Intensidad",
+  color: "Oscuridad",
+  bitterness: "Amargor",
+  hop: "Lúpulo",
+  fermentation: "Fermentación",
+  yeast: "Levadura",
+  baja: "Baja",
+  media: "Media",
+  alta: "Alta",
+  palido: "Pálido",
+  ambar: "Ámbar",
+  oscuro: "Oscuro",
+  bajo: "Bajo",
+  medio: "Medio",
+  alto: "Alto",
+  viejo: "Viejo mundo",
+  nuevo: "Nuevo mundo",
+  lager: "Lager",
+  ale: "Ale",
+}
+
 export default function Home() {
   const {
     register,
@@ -22,6 +44,7 @@ export default function Home() {
     formState: { errors },
     reset,
     resetField,
+    getValues,
   } = useForm();
   const [candidateBeers, setCandidateBeers] = useState([]);
   const [used, setUsed] = useState(false);
@@ -171,6 +194,14 @@ export default function Home() {
         <ThemeProvider theme={theme}>
           <Stack spacing={10} justifyContent="center" alignItems="center">
             <Typography variant="h3">Resultado encontrado</Typography>
+            <Stack spacing={1}>
+            <Typography variant="h6">Tus elecciones fueron:</Typography>
+            {
+              Object.entries(getValues()).map(v => 
+                v[1] && <Typography>- {TRAD[v[0]]}: {TRAD[v[1]]}</Typography>
+              )
+            }
+            </Stack>
             <Stack
               flexDirection="row"
               justifyContent="space-around"
